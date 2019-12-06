@@ -14,6 +14,7 @@ WITH t1(playerID, AB, R, H, X2B, X3B, HR, RBI, SB, BB) AS (
 ) 
 SELECT playerID, sum(AB), sum(R), sum(H), sum(X2B), sum(X3B), sum(HR), sum(RBI), sum(SB), sum(BB)
 FROM t1
+GROUP BY playerID
 
 
 # HallofFame: The dataset holds all hall of fame elections, even when a player failed to get inducted. We’d just want the cases where a player was inducted
