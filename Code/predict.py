@@ -7,6 +7,9 @@ import numpy as np
 import pandas as pd
 import collections
 from sklearn.impute import SimpleImputer
+from sklearn.model_selection import train_test_split
+from sklearn.linear_model import LogisticRegression
+from sklearn.svm import SVC
 
 X = []
 
@@ -49,7 +52,7 @@ X_select = np.array(X_select)
 X_select = np.transpose(X_select)
 
 
-#Replace missing values with mean of the column
+# Replace missing values with mean of the column
 imp = SimpleImputer(missing_values=np.nan, strategy='mean')
 imp.fit(X_select)
 X_without_nan = imp.transform(X_select)
@@ -58,6 +61,26 @@ X_without_nan = imp.transform(X_select)
 #print(np.where(np.isnan(X_select[:,10])==True))
 #print(X_select[55])
 #print(X_without_nan[55])
+
+# Train-Test Split
+X_train, X_test, y_train, y_test = train_test_split(X_without_nan, y, test_size=0.2, random_state=42)
+
+print('Number of training examples',X_train.shape)
+print('Number of test samples',X_test.shape)
+
+# Logistic Regressor Classifier
+print("LOGISTIC REGRESSION")
+clf = LogisticRegression(random_state=0).fit(X_train, y_train)
+Y_predict = clf.predict(X_test)
+print("Predictions", Y_predict)
+print("Classification Accuracy = ", clf.score(X_test, y_test))
+
+# Support Vector Machine(SVM) Classifier
+print("SUPPORT VECTOR MACHINE")
+clf = SVC(gamma='auto').fit(X_train, y_train)
+Y_predict = clf.predict(X_test)
+print("Predictions", Y_predict)
+print("Classification Accuracy = ", clf.score(X_test, y_test))
 
 
 
