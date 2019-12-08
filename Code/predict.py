@@ -1,15 +1,14 @@
 #!/usr/bin/env python
 
-import csv
-from sklearn.ensemble import RandomForestClassifier
-from sklearn.datasets import make_classification
-import numpy as np
-import pandas as pd
-import collections
 from sklearn.impute import SimpleImputer
 from sklearn.model_selection import train_test_split
 from sklearn.linear_model import LogisticRegression
 from sklearn.svm import SVC
+from sklearn.metrics import precision_recall_fscore_support
+
+import numpy as np
+import csv
+
 
 X = []
 
@@ -74,6 +73,7 @@ clf = LogisticRegression(random_state=0).fit(X_train, y_train)
 Y_predict = clf.predict(X_test)
 print("Predictions", Y_predict)
 print("Classification Accuracy = ", clf.score(X_test, y_test))
+print("Precision, Recall, F-Score:", precision_recall_fscore_support(y_test, Y_predict, average='weighted'))
 
 # Support Vector Machine(SVM) Classifier
 print("SUPPORT VECTOR MACHINE")
@@ -81,6 +81,7 @@ clf = SVC(gamma='auto').fit(X_train, y_train)
 Y_predict = clf.predict(X_test)
 print("Predictions", Y_predict)
 print("Classification Accuracy = ", clf.score(X_test, y_test))
+print("Precision, Recall, F-Score:", precision_recall_fscore_support(y_test, Y_predict, average='weighted'))
 
 
 
