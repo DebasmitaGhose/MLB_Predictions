@@ -112,5 +112,4 @@ WITH t1(playerID, AB, R, H, twoB, threeB, HR, RBI, SB, so) AS (
  	LEFT JOIN t7 on player.playerID = t7.playerID
  	LEFT JOIN t8 on player.playerID = t8.playerID
  	LEFT JOIN t9 on player.playerID = t9.playerID
-	WHERE player.playerid = 'aaronha01'
 
