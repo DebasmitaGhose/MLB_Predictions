@@ -22,6 +22,8 @@ The sport is incredibly popular within the United States, with the games drawing
 
 #### Technical Challenges
 
+- The database had a significant amount of missing values, which was a hindrance in building the Machine Learning model. In order to work around that, we needed to remove features where the percentage of missing values were more than 50%. For rest of the features, we imputed the missing values with the mean value in the column. 
+
 #### Code
 
 The code folder in this repository contains our SQL code for data extraction/processing and our Python code for model development.  
