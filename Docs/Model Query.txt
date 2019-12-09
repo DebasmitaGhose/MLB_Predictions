@@ -1,0 +1,116 @@
+
+
+
+WITH t1(playerID, AB, R, H, twoB, threeB, HR, RBI, SB, so) AS (
+	
+		SELECT  bat.playerID, sum(AB) as ab, sum(R) as r, sum(H) as h, sum(twoB) as twob, sum(threeB) as threeb, sum(HR) as hr, sum(RBI) as rbi, sum(SB) as sb, sum(so) as so
+			FROM bat
+			JOIN (SELECT player.playerID, player.debutYear FROM player) AS p ON p.playerID = bat.playerID
+			WHERE (bat.yearID - p.debutYear) < 5
+			GROUP BY bat.playerID
+	), 
+
+	t2(playerID, w, l, pitch_g, pitch_gs, sho, sv, pitch_h, era, pitch_so, baopp) AS (
+
+		SELECT pitching.playerID, sum(w) as w, sum(l) as l, sum(pitch_g) as pitch_g, sum(pitch_gs) as pitch_gs, sum(sho) as sho, sum(sv) as sv, 
+				sum(pitch_h) as pitch_h, avg(era) as era, sum(pitch_so) as pitch_so, avg(baopp) as baopp
+			FROM pitching
+			JOIN (SELECT player.playerID, player.debutYear FROM player) AS p ON p.playerID = pitching.playerID
+			WHERE (pitching.yearID - p.debutYear) < 5
+			GROUP BY pitching.playerID
+
+	), 
+
+	t3(playerID, inducted) AS (
+
+		SELECT playerID, inducted
+			FROM hof
+			WHERE inducted = 1 AND category = 'Player'
+
+	), 
+
+	t4(playerID, N_AllStar) AS(
+
+		SELECT AllstarFull.playerID, count(yearID) as N_AllStar
+		FROM AllstarFull
+		JOIN (SELECT player.playerID, player.debutYear FROM player) AS p ON p.playerID = AllstarFull.playerID
+		WHERE (AllstarFull.yearID - p.debutYear) < 5
+		GROUP BY AllstarFull.playerID
+
+
+	), 
+
+	t5(playerID, N_Awards) AS (
+
+		SELECT awards_player.playerID, count(awardID) as N_Awards
+		FROM awards_player
+		JOIN (SELECT player.playerID, player.debutYear FROM player) AS p ON p.playerID = awards_player.playerID
+		WHERE (awards_player.yearID - p.debutYear) < 5
+		GROUP BY awards_player.playerID
+
+
+	),
+
+	t6(playerID, post_AB, post_R, post_H, post_twoB, post_threeB, post_HR, post_RBI, post_SB, post_so) AS (
+
+		SELECT  batpost.playerID, sum(post_AB) as post_AB, sum(post_R) as post_R, sum(post_H) as post_H, sum(post_twoB) as post_twoB, sum(post_threeB) as post_threeB,
+				sum(post_HR) as post_HR, sum(post_RBI) as post_RBI, sum(post_SB) as post_SB, sum(post_so) as post_so
+			FROM batpost
+			JOIN (SELECT player.playerID, player.debutYear FROM player) AS p ON p.playerID = batpost.playerID
+			WHERE (batpost.yearID - p.debutYear) < 5
+			GROUP BY batpost.playerID
+
+
+	),
+
+	t7(playerID, post_w, post_l, post_pitch_g, post_pitch_gs, post_sho, post_sv, post_pitch_h, post_era, post_pitch_so, post_baopp) AS (
+
+		SELECT pitchingpost.playerID, sum(post_w) as post_w, sum(post_l) as post_l, sum(post_pitch_g) as post_pitch_l, sum(post_pitch_gs) post_pitch_gs, 
+				sum(post_sho) as post_sho, sum(post_sv) as post_sv, 
+				sum(post_pitch_h) as post_pitch_h, avg(post_era) as post_era, sum(post_pitch_so) as post_pitch_so, avg(post_baopp) as post_baopp
+			FROM pitchingpost
+			JOIN (SELECT player.playerID, player.debutYear FROM player) AS p ON p.playerID = pitchingpost.playerID
+			WHERE (pitchingpost.yearID - p.debutYear) < 5
+			GROUP BY pitchingpost.playerID
+
+	), 
+
+	t8(playerID, innouts, po, a, e) AS (
+
+		SELECT fielder.playerID, sum(innouts) as innouts, sum(po) as po, sum(a) as a, sum(e) as e
+			FROM fielder
+			JOIN (SELECT player.playerID, player.debutYear FROM player) AS p ON p.playerID = fielder.playerID
+			WHERE (fielder.yearID - p.debutYear) < 5
+			GROUP BY fielder.playerID
+
+	), 
+
+	t9(playerID, post_innouts, post_po, post_a, post_e) AS (
+
+		SELECT fielderpost.playerID, sum(post_innouts) as post_innouts, sum(post_po) as post_po, sum(post_a) as post_a, sum(post_e) as post_e 
+			FROM fielderpost
+			JOIN (SELECT player.playerID, player.debutYear FROM player) AS p ON p.playerID = fielderpost.playerID
+			WHERE (fielderpost.yearID - p.debutYear) < 5
+			GROUP BY fielderpost.playerID
+
+	)
+
+	SELECT player.playerID, CASE WHEN t3.inducted IS NULL THEN 0 ELSE t3.inducted END as IsHallofFame,
+			AB, R, H, twoB, threeB, HR, RBI, SB, so, w, l, pitch_g, pitch_gs, sho, sv, pitch_h, era, pitch_so, baopp, 
+			N_AllStar, N_Awards, post_AB, post_R, post_H, post_twoB, post_threeB, post_HR, post_RBI, post_SB, post_so,
+			post_w, post_l, post_pitch_g, post_pitch_gs, post_sho, post_sv, post_pitch_h, post_era, post_pitch_so, post_baopp,
+			innouts, po, a, e, post_innouts, post_po, post_a, post_e
+
+
+	FROM player 
+	LEFT JOIN t3 on player.playerID = t3.playerID
+	LEFT JOIN t1 on player.playerID = t1.playerID 
+ 	LEFT JOIN t2 on player.playerID = t2.playerID
+ 	LEFT JOIN t4 on player.playerID = t4.playerID 
+ 	LEFT JOIN t5 on player.playerID = t5.playerID 
+ 	LEFT JOIN t6 on player.playerID = t6.playerID 
+ 	LEFT JOIN t7 on player.playerID = t7.playerID
+ 	LEFT JOIN t8 on player.playerID = t8.playerID
+ 	LEFT JOIN t9 on player.playerID = t9.playerID
+	WHERE player.playerid = 'aaronha01'
+
