@@ -9,7 +9,7 @@ WITH t1(playerID, AB, R, H, X2B, X3B, HR, RBI, SB, BB) AS (
 	
 	SELECT playerID, AB, R, H, X2B, X3B, HR, RBI, SB, BB
 		FROM batting
-		LEFT JOIN (SELECT player.playerID, debutYearplayer FROM player AS t1 ON t1.playerID = batting.playerID)
+		LEFT JOIN (SELECT player.playerID, player.debutYear FROM player AS t1 ON t1.playerID = batting.playerID)
 		WHERE (batting.yearID - t1.debutYear) + 1 < 5
 ) 
 SELECT playerID, sum(AB), sum(R), sum(H), sum(X2B), sum(X3B), sum(HR), sum(RBI), sum(SB), sum(BB)
@@ -27,7 +27,7 @@ SELECT playerID, CASE WHEN inducted IS “Y” THEN 1 ELSE 0 END
 # in their first five years. 
 
 
-
-
-
+# How to aggregate different columns?
+# MEAN: post_pitch_BAOpp, post_pitch_ERA, pitch_ERA, pitch_BAOpp 
+# Use SUM for the rest of the columns when aggregating the first five years of a player’s career
 
