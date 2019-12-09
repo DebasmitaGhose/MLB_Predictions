@@ -96,7 +96,8 @@ WITH t1(playerID, AB, R, H, twoB, threeB, HR, RBI, SB, so) AS (
 	)
 
 	SELECT player.playerID, CASE WHEN t3.inducted IS NULL THEN 0 ELSE t3.inducted END as IsHallofFame,
-			AB, R, H, twoB, threeB, HR, RBI, SB, so, w, l, pitch_g, pitch_gs, sho, sv, pitch_h, era, pitch_so, baopp, 
+			AB, R, H, twoB, threeB, HR, RBI, SB, so, 
+			w, l, pitch_g, pitch_gs, sho, sv, pitch_h, era, pitch_so, baopp, 
 			N_AllStar, N_Awards, post_AB, post_R, post_H, post_twoB, post_threeB, post_HR, post_RBI, post_SB, post_so,
 			post_w, post_l, post_pitch_g, post_pitch_gs, post_sho, post_sv, post_pitch_h, post_era, post_pitch_so, post_baopp,
 			innouts, po, a, e, post_innouts, post_po, post_a, post_e
