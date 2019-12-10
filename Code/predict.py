@@ -73,6 +73,7 @@ for i in range(X_arr_train.shape[1]):
     percent_nan = num_nan*100    
     print(i, percent_nan)
     if percent_nan < threshold:
+        #print(X_train[0][i])
         select_col_train.append(i)
         select_col_test.append(i)
         X_select_train.append(col_i_train)
@@ -130,7 +131,21 @@ print("Predictions", Y_predict)
 print("Classification Accuracy = ", clf.score(X_test, y_test))
 print("Precision, Recall, F-Score:", precision_recall_fscore_support(y_test, Y_predict, average='weighted'))
 
+#print(Y_predict.type)
+filename = 'predictions.csv'
 
+Y_predict_list = Y_predict.tolist()
+print(len(Y_predict_list))
+
+# writing to csv file 
+with open(filename, 'w') as csvfile: 
+    # creating a csv writer object 
+    csvwriter = csv.writer(csvfile) 
+    for i in zip(Y_predict_list):
+		csvwriter.writerow((i))
+
+    # writing the data rows 
+    #csvwriter.writerows(Y_predict)
 
 
 
