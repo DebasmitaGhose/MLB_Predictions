@@ -17,15 +17,19 @@ A more detailed summary of the rules can be found here: https://en.wikipedia.org
 
 We chose this topic as baseball is a data-oriented sport with a rich history. The sport also is very data-driven, with multiple sources having recorded comprehensive statistics going back decades. The Lahman's Baseball database is just one of many public resources for baseball data and statistics. 
 
-The sport is incredibly popular within the United States, with the games drawing millions of television viewers. Analysis of the game on various media channels also provides high ratings. Every year, one of the biggest events in the MLB calendar is the Baseball Hall of Fame induction. Every year, a cohort of older players who have been retired from playing (for at least five years) are elected into the Hall of Fame, which is a museum that honors the greatest players who have ever played in the game based on the totality of their careers. Developing a model to predict which players will be recognized as one of the greatest in the history of the game, based on data from early in their careers, is an exciting task. 
+The sport is incredibly popular within the United States, with the games drawing millions of television viewers. Analysis of the game on various media channels also provides high ratings. Every year, one of the biggest events in the MLB calendar is the Baseball Hall of Fame induction. Every year, a cohort of older players who have been retired from playing (for at least five years) are elected into the Hall of Fame, which is a museum that honors the greatest players who have ever played in the game based on the totality of their careers. 
+
+Writing the SQL to extract and manipulate features and developing a model to predict which players will be recognized as one of the greatest in the history of the game is an exciting and very interesting task, and represents a great opportunity for us to help show our knowledge of database systems. In other words, this project provides us with an exciting opportunity to incorporate our knowledge of SQL and database systems and see how it fits into the big picture in a predictive modeling project. 
 
 #### Code
 
-The *SQL* folder in this repository contains our SQL code for data extraction/processing and to feed the website. Our Python code for model development is located in the *Code* folder in this repository.
+The *SQL* folder in this repository contains our SQL code for data extraction/processing and to feed the website with predictions. 
+
+Our Python code for model development is located in the *Code* folder in this repository.
 
 #### Database Normal Form
 
-The ER diagram located in the *Docs* folder of this repository helps visualize that this database schema is in the correct normal form. 
+The ER diagram located in the *Docs* folder of this repository helps visualize that this database schema is in sufficient normal form. An additional breakdown of the database schema and what the attributes mean are also located in the *Docs* folder. 
 
 #### Model Details
 
@@ -55,4 +59,6 @@ Given additional time and resources, there is definitely opportunities to improv
 The database had a significant amount of missing values, which was a hindrance in building the Machine Learning model. In order to work around that, we needed to remove features where the percentage of missing values were more than 50%. For rest of the features, we imputed the missing values with the mean value in the column. Given that the distributions of most of these statistics is skewed, with the best players often residing on the tail end of these distributions, imputation with a mean value is pretty safe here. 
 
 The dataset also has a strong class imbalance towards players not reaching the hall of fame, so standard machine learning techniques fail to perform as well. That is because they do not have enough examples to learn the distribution of one of the classes. Therefore, we had to use a standard random oversampling technique to oversample positive examples from the training dataset. This does have a downside, as one could argue that the model potentially overfits in favor of players who make the Hall of Fame, and may inflate some of the predicted probabilities for players who are less likely to be elected into the baseball Hall of Fame. This is the lesser of two evils, however, as we can take into account that the absolute best players with the best chance of making the Hall of Fame will have very high probabilities, and that players with lower probabilities in the distribution will have substantially lower chances compared to those players with higher probabilities. 
+
+In the backend, connecting JDBC and the database, and then JDBC in the webapp, also presented technical challenges. 
 
