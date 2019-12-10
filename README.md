@@ -17,38 +17,42 @@ A more detailed summary of the rules can be found here: https://en.wikipedia.org
 
 We chose this topic as baseball is a data-oriented sport with a rich history. The sport also is very data-driven, with multiple sources having recorded comprehensive statistics going back decades. The Lahman's Baseball database is just one of many public resources for baseball data and statistics. 
 
-The sport is incredibly popular within the United States, with the games drawing millions of television viewers. Analysis of the game on various media channels also provides high ratings. Every year, one of the biggest events in the MLB calendar is the Baseball Hall of Fame induction. Every year, a cohort of older players who have been retired from playing are elected into the Hall of Fame, which is a museum that honors the greatest players who have ever played in the game based on the totality of their careers. Developing a model to predict which players will be recognized as one of the greatest in the history of the game, based on data from early in their careers, is an exciting task. 
-
-
-#### Technical Challenges
-
-- The database had a significant amount of missing values, which was a hindrance in building the Machine Learning model. In order to work around that, we needed to remove features where the percentage of missing values were more than 50%. For rest of the features, we imputed the missing values with the mean value in the column. 
-- The dataset has a strong class imbalance towards players not reaching the hall of fame, so standard machine learning techniques fail to perform as well. That is because they do not have enough examples to learn the distribution of one of the classes. Therefore, we had to use a standard random oversampling technique to oversample positive examples from the training dataset. 
+The sport is incredibly popular within the United States, with the games drawing millions of television viewers. Analysis of the game on various media channels also provides high ratings. Every year, one of the biggest events in the MLB calendar is the Baseball Hall of Fame induction. Every year, a cohort of older players who have been retired from playing (for at least five years) are elected into the Hall of Fame, which is a museum that honors the greatest players who have ever played in the game based on the totality of their careers. Developing a model to predict which players will be recognized as one of the greatest in the history of the game, based on data from early in their careers, is an exciting task. 
 
 #### Code
 
-The code folder in this repository contains our SQL code for data extraction/processing and our Python code for model development.  
+The *SQL* folder in this repository contains our SQL code for data extraction/processing and to feed the website. Our Python code for model development is located in the *Code* folder in this repository.
 
-#### Normal Form
+#### Database Normal Form
 
-The ER diagram located in the documents folder of this repository helps visualize that this database schema is in the correct normal form. 
+The ER diagram located in the *Docs* folder of this repository helps visualize that this database schema is in the correct normal form. 
 
 #### Model Details
- 
-Training set: Players who have debuted before 1995
 
-Test set: Players who have debuted post 1995
+In model development, our training/validation data included all players n = 14,171 from our database who made their MLB debut before 1995. For features, we utilize cumulative and average statistics of different metrics for players based on their first five years playing in the MLB. 
 
-We select only those features from the database, where the percentage of missing values are less than 50% of the size of the training set. For the selected features, we replace the missing values with the mean value of that feature. 
+Within the data, some features have missing values. There are a number of reasons for why this is the case. For example, some players may play in positions where they don't record specific statistics throughout their career. In addition, it is also possible that some statistics are not recorded further back in the past and began being recorded later after the league was founded. When selecting features, we select only those features from the database where the percentage of missing values are less than 50% of the size of the training set. For the selected features, we replace the missing values with the mean value of that feature. 
 
-We then train a Logistic Regression classifier to predict if a given player will make it to the Hall of Fame or not.
+We then train a Logistic Regression model to estimate the predicted probability that a player will make the hall of fame based on the statistics from their first five seasons. On our website, we utilize the predicted probabilities of the test set, which contain all players who made their MLB debut in 1995 or later - many of whom who are still active players and a few having just retired fairly recently. 
 
-##### Results
+#### Model Results
 
-Classification Accuracy =  0.756525052390931
+Overall classification accuracy of the model was 87.6%. For the test set of players from 1995 and onward, we have the following distribution of predicted probabilities that a given player gets in the Hall of Fame:
 
-Precision = 0.9998096364756771
+- Minimum: 15.4%
+- Q1: 20.2%
+- Median: 21%
+- Mean: 29.7%
+- Q3: 26.4%
+- Max: 99.8%
 
-Recall = 0.7565250523909316
+The full distribution of predicted probabilities is located in the *Docs* section of the repository. Based on the first five years of their career, most players tend to have pretty low chances of making the Hall of Fame. There is a small cluster of players, however, who have very high probabilities. At a high level, using a combination of both the predicted probabilities as well as intuition about the game of baseball, we would say that any player with a predicted probability of at least 90% is on a good trajectory, based on their first five years, to make the baseball Hall of Fame. Of course, it's definitely possible that not all of these current players will make the Hall of Fame, as some may see their performance decrease later in their career due to various factors. 
 
-F-Score = 0.8611944103813429
+Given additional time and resources, there is definitely opportunities to improve on the model in the future if there is interest. However, the model used for predictions for this project is quite sufficient.  
+
+#### Technical Challenges
+
+The database had a significant amount of missing values, which was a hindrance in building the Machine Learning model. In order to work around that, we needed to remove features where the percentage of missing values were more than 50%. For rest of the features, we imputed the missing values with the mean value in the column. Given that the distributions of most of these statistics is skewed, with the best players often residing on the tail end of these distributions, imputation with a mean value is pretty safe here. 
+
+The dataset also has a strong class imbalance towards players not reaching the hall of fame, so standard machine learning techniques fail to perform as well. That is because they do not have enough examples to learn the distribution of one of the classes. Therefore, we had to use a standard random oversampling technique to oversample positive examples from the training dataset. This does have a downside, as one could argue that the model potentially overfits in favor of players who make the Hall of Fame, and may inflate some of the predicted probabilities for players who are less likely to be elected into the baseball Hall of Fame. This is the lesser of two evils, however, as we can take into account that the absolute best players with the best chance of making the Hall of Fame will have very high probabilities, and that players with lower probabilities in the distribution will have substantially lower chances compared to those players with higher probabilities. 
+
