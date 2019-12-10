@@ -23,13 +23,13 @@ Writing the SQL to extract and manipulate features and developing a model to pre
 
 #### Code
 
-The *SQL* folder in this repository contains our SQL code for data extraction/processing and to feed the website with predictions. 
+The **SQL** folder in this repository contains our SQL code for data extraction/processing and to feed the website with predictions. 
 
-Our Python code for model development is located in the *Code* folder in this repository.
+Our Python code for model development is located in the **Code** folder in this repository.
 
 #### Database Normal Form
 
-The ER diagram located in the *Docs* folder of this repository helps visualize that this database schema is in sufficient normal form. An additional breakdown of the database schema and what the attributes mean are also located in the *Docs* folder. 
+The ER diagram located in the **Docs** folder of this repository helps visualize that this database schema is in sufficient normal form. An additional breakdown of the database schema and what the attributes mean are also located in the **Docs** folder. 
 
 #### Model Details
 
@@ -50,7 +50,7 @@ Overall classification accuracy of the model was 87.6%. For the test set of play
 - Q3: 26.4%
 - Max: 99.8%
 
-The full distribution of predicted probabilities is located in the *Docs* section of the repository. Based on the first five years of their career, most players tend to have pretty low chances of making the Hall of Fame. There is a small cluster of players, however, who have very high probabilities. At a high level, using a combination of both the predicted probabilities as well as intuition about the game of baseball, we would say that any player with a predicted probability of at least 90% is on a good trajectory, based on their first five years, to make the baseball Hall of Fame. Of course, it's definitely possible that not all of these current players will make the Hall of Fame, as some may see their performance decrease later in their career due to various factors. 
+The full distribution of predicted probabilities is located in the **Docs** section of the repository. Based on the first five years of their career, most players tend to have pretty low chances of making the Hall of Fame. There is a small cluster of players, however, who have very high probabilities. At a high level, using a combination of both the predicted probabilities as well as intuition about the game of baseball, we would say that any player with a predicted probability of at least 90% is on a good trajectory, based on their first five years, to make the baseball Hall of Fame. Of course, it's definitely possible that not all of these current players will make the Hall of Fame, as some may see their performance decrease later in their career due to various factors. 
 
 Given additional time and resources, there is definitely opportunities to improve on the model in the future if there is interest. However, the model used for predictions for this project is quite sufficient.  
 
