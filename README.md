@@ -23,6 +23,7 @@ The sport is incredibly popular within the United States, with the games drawing
 #### Technical Challenges
 
 - The database had a significant amount of missing values, which was a hindrance in building the Machine Learning model. In order to work around that, we needed to remove features where the percentage of missing values were more than 50%. For rest of the features, we imputed the missing values with the mean value in the column. 
+- The dataset has a strong class imbalance towards players not reaching the hall of fame, so standard machine learning techniques fail to perform as well. That is because they do not have enough examples to learn the distribution of one of the classes. Therefore, we had to use a standard random oversampling technique to oversample positive examples from the training dataset. 
 
 #### Code
 
@@ -40,14 +41,14 @@ Test set: Players who have debuted post 1995
 
 We select only those features from the database, where the percentage of missing values are less than 50% of the size of the training set. For the selected features, we replace the missing values with the mean value of that feature. 
 
-We then train a Support Vector Machine Classifier to predict if a given player will make it to the Hall of Fame or not.
+We then train a Logistic Regression classifier to predict if a given player will make it to the Hall of Fame or not.
 
 ##### Results
 
-Accuracy = 0.9998094875214326
+Classification Accuracy =  0.756525052390931
 
-Precision = 0.9996190113378697
+Precision = 0.9998096364756771
 
-Recall = 0.9998094875214326
+Recall = 0.7565250523909316
 
-F-Score = 0.9997142403567647
+F-Score = 0.8611944103813429
