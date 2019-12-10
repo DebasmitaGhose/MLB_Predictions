@@ -31,3 +31,23 @@ The code folder in this repository contains our SQL code for data extraction/pro
 #### Normal Form
 
 The ER diagram located in the documents folder of this repository helps visualize that this database schema is in the correct normal form. 
+
+#### Model Details
+ 
+Training set: Players who have debuted before 1995
+
+Test set: Players who have debuted post 1995
+
+We select only those features from the database, where the percentage of missing values are less than 50% of the size of the training set. For the selected features, we replace the missing values with the mean value of that feature. 
+
+We then train a Support Vector Machine Classifier to predict if a given player will make it to the Hall of Fame or not.
+
+##### Results
+
+Accuracy = 0.9998094875214326
+
+Precision = 0.9996190113378697
+
+Recall = 0.9998094875214326
+
+F-Score = 0.9997142403567647
